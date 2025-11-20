@@ -1,35 +1,82 @@
 /* Title Area
 --------------------------------------------- */
 .site-title {
-	margin-bottom: 0;
-	font-size: $site-title--font-size;
-	font-weight: $font-weight--semibold;
-	line-height: $line-height--smaller;
+  margin-bottom: 0;
+  font-size: $site-title--font-size;
+  font-weight: $font-weight--semibold;
+  line-height: $line-height--smaller;
 
-	a,
-	a:focus,
-	a:hover {
-		color: $site-title__link--font-color;
-		text-decoration: none;
-	}
+  a,
+  a:focus,
+  a:hover {
+    color: $site-title__link--font-color;
+    text-decoration: none;
+  }
 
-	.wp-custom-logo & {
-		overflow: hidden;
-		clip: rect(0, 0, 0, 0);
-		position: absolute !important;
-		width: 1px;
-		height: 1px;
-		border: 0;
-		word-wrap: normal !important;
-	}
+  .wp-custom-logo & {
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    border: 0;
+    word-wrap: normal !important;
+  }
 }
 
 .site-description {
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	position: absolute !important;
-	width: 1px;
-	height: 1px;
-	border: 0;
-	word-wrap: normal !important;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  border: 0;
+  word-wrap: normal !important;
+}
+
+body {
+  background: url("background.jpg") no-repeat center center/cover;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background: linear-gradient(
+    90deg,
+    rgba(240, 250, 255, 0.8),
+    rgba(255, 240, 250, 0.8)
+  );
+  border-radius: 50px;
+  margin: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.text-gold {
+  color: #d4af37;
+}
+
+.nav-link {
+  color: #222;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #d4af37;
+}
+
+.btn-dark {
+  background-color: #0c0c0c;
+  border: none;
+}
+
+.btn-dark:hover {
+  background-color: #222;
 }

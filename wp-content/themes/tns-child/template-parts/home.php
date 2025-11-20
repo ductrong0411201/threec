@@ -5,10 +5,14 @@
 ?>
 
 <div class="home-content">
+    <?php get_template_part('template-parts/home-banner'); ?>
     <?php get_template_part('template-parts/intro-section'); ?>
-    <?php get_template_part('template-parts/news-section'); ?>
-    <?php get_template_part('template-parts/girl-list'); ?>
-    <?php get_template_part('template-parts/greeting-section'); ?>
-    <?php get_template_part('template-parts/price-section'); ?>
-    <?php get_template_part('template-parts/register-section'); ?>
+    <?php get_template_part('template-parts/vision-section'); ?>
+    <?php get_template_part('template-parts/value-section'); ?>
+    <?php get_template_part('template-parts/team-section'); ?>
+    <?php get_template_part('template-parts/project-section'); ?>
+    <?php get_template_part('template-parts/colorverse-section'); ?>
+    <?php get_template_part('template-parts/service-section'); ?>
+    <?php get_template_part('template-parts/blog-section'); ?>
+    
 </div>
