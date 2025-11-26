@@ -4,6 +4,7 @@
  $phone    = get_field('phone', 'option');
  $mail    = get_field('mail', 'option');
  ?>
+ <?php wp_footer(); ?>
 <div class="footer-wrapper">
 
   <footer class="footer-section py-5">

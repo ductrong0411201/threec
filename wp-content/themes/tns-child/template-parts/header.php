@@ -1,3 +1,4 @@
+<?php wp_head(); ?>
 <div class="header-wrapper">
 	<div class="container">
 		<header class="header py-2 px-4 d-flex align-items-center justify-content-between">

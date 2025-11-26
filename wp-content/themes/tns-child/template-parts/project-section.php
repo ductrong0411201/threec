@@ -40,7 +40,7 @@ $bottom    = get_field('project_bottom', 'option');
         'posts_per_page' => 8,
         'no_found_rows' => true,
         'ignore_sticky_posts' => true,
-        // 'category_name' => 'cartoon-movie', // slug
+        'category_name' => 'cartoon-movie', // slug
       ));
       if ($query->have_posts()) {
         while ($query->have_posts()) {
@@ -83,7 +83,7 @@ $bottom    = get_field('project_bottom', 'option');
           'posts_per_page' => 8,
           'no_found_rows' => true,
           'ignore_sticky_posts' => true,
-          // 'category_name' => 'cartoon-short-clip',
+          'category_name' => 'cartoon-short-clip',
         ));
 
         if ($query->have_posts()) :
