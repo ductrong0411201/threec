@@ -2,7 +2,9 @@
 <div class="container my-5">
     <!-- ===== NEWS ===== -->
     <section id="news-section" class="mb-5">
-        <div class="section-title mb-5">NEWS</div>
+        <div class="section-title-line">
+            <span>NEWS</span>
+        </div>
         <div id="news-container">
             <?php
             $news_query = new WP_Query([
@@ -17,8 +19,11 @@
                     ?>
                     <div class="news-item d-flex gap-3 mb-3">
                         <div class="news-thumb"><?php the_post_thumbnail('medium'); ?></div>
-                        <div>
-                            <h4 class="news-title"><a href="<?php the_permalink(); ?>" ><?php the_title(); ?></a></h4>
+                        <div class="w-100">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h4 class="news-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+                                <a href="<?php the_permalink(); ?>" class="blog-arrow"><img src="/wp-content/themes/tns-child/assets/src/images/arrow-red.png"></a>
+                            </div>
                             <span class="news-date"><?php the_time('M d, Y'); ?></span>
                             <p class="news-desc"><?php echo wp_trim_words($description, 25); ?></p>
                         </div>
@@ -28,12 +33,16 @@
             wp_reset_postdata();
             ?>
         </div>
-        <button id="load-news" data-page="1" class="btn btn-more mt-3">Xem thêm</button>
+        <?php if ($news_query->found_posts > 6): ?>
+            <button id="load-news" data-page="1" class="btn btn-more mt-3">Xem thêm</button>
+        <?php endif; ?>
     </section>
 
     <!-- ===== BLOG ===== -->
     <section id="blog-section">
-        <div class="section-title mb-5">BLOGS</div>
+        <div class="section-title-line">
+            <span>BLOG</span>
+        </div>
         <div id="blog-container">
             <?php
             $blog_query = new WP_Query([
@@ -43,16 +52,18 @@
             ]);
             if ($blog_query->have_posts()):
                 while ($blog_query->have_posts()): $blog_query->the_post(); ?>
-                <?php
+                    <?php
                     $description = get_field('short_description');
                     ?>
                     <div class="blog-card mb-4">
                         <img src="<?php the_post_thumbnail_url('large'); ?>" class="blog-img">
                         <div class="blog-content">
                             <span class="blog-date"><?php the_time('M d, Y'); ?></span>
-                            <h4 class="blog-title"><a href="<?php the_permalink(); ?>" ><?php the_title(); ?></a></h4>
+                            <h4 class="blog-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                             <p class="blog-desc"><?php echo wp_trim_words($description, 25); ?></p>
-                            <a href="<?php the_permalink(); ?>" class="blog-arrow">↗</a>
+                            <div class="d-flex justify-content-end">
+                                <a href="<?php the_permalink(); ?>" class="blog-arrow"><img src="/wp-content/themes/tns-child/assets/src/images/arrow-yellow.png"></a>
+                            </div>
                         </div>
                     </div>
             <?php endwhile;
@@ -60,7 +71,10 @@
             wp_reset_postdata();
             ?>
         </div>
-        <button id="load-blog" data-page="1" class="btn btn-more mt-3">Xem thêm</button>
+        <?php if ($blog_query->found_posts > 8): ?>
+            <button id="load-blog" data-page="1" class="btn btn-more mt-3">Xem thêm</button>
+        <?php endif; ?>
+
     </section>
 </div>
 
@@ -85,6 +99,10 @@
         background: #fff;
     }
 
+     .news-item .blog-arrow img {
+        width: 14px;
+    }
+
     .news-thumb img {
         width: 200px;
         height: 150px;
@@ -94,7 +112,7 @@
 
     .news-title {
         font-size: 1.1rem;
-        margin: 0 0 5px;
+        margin: 0 0 10px;
     }
 
     .news-title a {
@@ -103,15 +121,16 @@
     }
 
     .news-desc {
+        margin-top: 10px;
         font-size: 0.9rem;
         color: #555;
     }
 
     .news-date {
-            background: #F0F0F0;
-    padding: 5px 10px;
-    border-radius: 15px;
-    color: #78060A
+        background: #F0F0F0;
+        padding: 5px 10px;
+        border-radius: 15px;
+        color: #78060A;
     }
 
     /* ===== BLOG ===== */
@@ -129,12 +148,14 @@
         background: #F4F4F4;
         display: flex;
         flex-direction: column;
+        padding: 10px;
     }
 
     .blog-img {
         width: 100%;
         height: 180px;
         object-fit: cover;
+        border-radius: 8px;
     }
 
     .blog-content {
@@ -143,7 +164,7 @@
 
     .blog-title {
         font-size: 1rem;
-        margin: 5px 0;
+        margin: 5px 0 10px;
     }
 
     .blog-title a {
@@ -155,30 +176,55 @@
         font-size: 0.9rem;
         color: #555;
     }
-    .blog-date {
-            background: #FFFFFF;
-    padding: 5px 10px;
-    border-radius: 15px;
-    color: #D59C12
-    }
-    .btn-more {
-		background: #fff;
-		border: none;
-		padding: 0.75rem 2rem;
-		border-radius: 50px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-		display: block;
-		margin: 2rem auto 0;
-		font-weight: 500;
-	}
 
-	.btn-more:hover {
-		background: #f5f5f5;
-	}
+    .blog-date {
+        background: #FFFFFF;
+        padding: 5px 10px;
+        border-radius: 15px;
+        color: #D59C12
+    }
+
+    .btn-more {
+        background: #fff;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: block;
+        margin: 2rem auto 0;
+        font-weight: 500;
+    }
+
+    .btn-more:hover {
+        background: #f5f5f5;
+    }
 
     .blog-arrow {
-        color:#D59C12
+        color: #D59C12
     }
+
+    .section-title-line {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .section-title-line span {
+        font-size: 22px;
+        font-weight: 700;
+        color: #333;
+        /* màu chữ giống hình */
+    }
+
+    .section-title-line::after {
+        content: "";
+        width: 50px;
+        height: 2px;
+        background-color: #6e1f2b;
+        /* màu gạch đỏ thẫm */
+        display: block;
+    }
+
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 992px) {

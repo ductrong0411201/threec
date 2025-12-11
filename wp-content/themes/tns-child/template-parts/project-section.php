@@ -40,7 +40,7 @@ $bottom    = get_field('project_bottom', 'option');
         'posts_per_page' => 8,
         'no_found_rows' => true,
         'ignore_sticky_posts' => true,
-        'category_name' => 'cartoon-movie', // slug
+        'category_name' => 'movie', // slug
       ));
       if ($query->have_posts()) {
         while ($query->have_posts()) {
@@ -83,7 +83,7 @@ $bottom    = get_field('project_bottom', 'option');
           'posts_per_page' => 8,
           'no_found_rows' => true,
           'ignore_sticky_posts' => true,
-          'category_name' => 'cartoon-short-clip',
+          'category_name' => 'short-clip',
         ));
 
         if ($query->have_posts()) :
@@ -150,6 +150,12 @@ $bottom    = get_field('project_bottom', 'option');
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     position: relative;
+    aspect-ratio: 16 / 9;
+  }
+  
+  .movie-card p iframe {
+    width: 100%;
+    height: auto;
   }
 
   .movie-card:hover {
@@ -261,13 +267,13 @@ $bottom    = get_field('project_bottom', 'option');
     transform: scale(1.05);
   }
 
-  .image-item::after {
+  /* .image-item::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
     z-index: 1;
-  }
+  } */
 
   .image-text {
     position: absolute;
@@ -291,13 +297,13 @@ $bottom    = get_field('project_bottom', 'option');
     transform: scale(1.05);
   }
 
-  .image-item::after {
+  /* .image-item::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
     z-index: 1;
-  }
+  } */
 
   .image-text {
     position: absolute;

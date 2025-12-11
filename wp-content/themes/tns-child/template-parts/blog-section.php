@@ -35,7 +35,7 @@
 						} ?>
 						<div class="content ms-3">
 							<span class="date-tag"><?php echo $date ?></span>
-							<h6 class="fw-bold mb-1"><?php the_title(); ?></h6>
+							<h6 class="fw-bold mb-1"><a href="<?php the_permalink(); ?>" ><?php the_title(); ?></a></h6>
 							<p class="mb-0 small text-muted">
 								<?php echo $description ?>
 							</p>
@@ -82,7 +82,7 @@
 								} ?>
 								<div class="content">
 									<span class="date-tag bg-warning text-dark"><?php echo $date ?></span>
-									<h6 class="fw-bold mb-1"><?php echo $title ?></h6>
+									<h6 class="fw-bold mb-1"><a href="<?php the_permalink(); ?>" ><?php the_title() ?></a></h6>
 									<p class="mb-0 small text-muted">
 										<?php echo $description ?>
 									</p>
@@ -99,7 +99,7 @@
 		</div>
 	</div>
 
-	<button class="btn-more">Xem thêm</button>
+	<button class="btn-more"><a href="/bai-viet">Xem thêm</a></button>
 </section>
 <style>
 	<?php
@@ -176,6 +176,15 @@
 
 	.content {
 		padding: 1rem;
+	}
+
+	.content h6 a {
+		color: #333;
+		text-decoration: none;
+	}
+	.btn-more a {
+		color: #333;
+		text-decoration: none;
 	}
 
 	.date-tag {

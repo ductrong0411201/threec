@@ -9,7 +9,7 @@ require_once get_theme_file_path() . '/inc/init.php';
  * WooCommerce functions
  */
 if (class_exists('WooCommerce')):
-	require_once get_theme_file_path() . '/inc/woocommerce.php';
+    require_once get_theme_file_path() . '/inc/woocommerce.php';
 endif;
 
 /**
@@ -20,14 +20,14 @@ require_once get_theme_file_path() . '/inc/layouts.php';
 
 function register_my_menus()
 {
-	register_nav_menus(
-		array(
-			'footer-menu' => __('Footer', 'tns_child'),
-			'footer-menu-1' => __('Footer-1', 'tns_child'),
-			'footer-menu-2' => __('Footer-2', 'tns_child'),
-			'header-menu' => __('Header', 'tns_child'),
-		)
-	);
+    register_nav_menus(
+        array(
+            'footer-menu' => __('Footer', 'tns_child'),
+            'footer-menu-1' => __('Footer-1', 'tns_child'),
+            'footer-menu-2' => __('Footer-2', 'tns_child'),
+            'header-menu' => __('Header', 'tns_child'),
+        )
+    );
 }
 add_action('init', 'register_my_menus');
 
@@ -37,7 +37,8 @@ add_action('init', 'register_my_menus');
 add_action('wp_ajax_load_news', 'ajax_load_news');
 add_action('wp_ajax_nopriv_load_news', 'ajax_load_news');
 
-function ajax_load_news() {
+function ajax_load_news()
+{
     $page = isset($_POST['page']) ? intval($_POST['page']) + 1 : 2;
 
     $query = new WP_Query([
@@ -46,13 +47,16 @@ function ajax_load_news() {
         'paged' => $page
     ]);
 
-    if($query->have_posts()):
-        while($query->have_posts()): $query->the_post(); ?>
+    if ($query->have_posts()):
+        while ($query->have_posts()): $query->the_post(); ?>
             <div class="news-item d-flex gap-3 mb-3">
                 <div class="news-thumb"><?php the_post_thumbnail('medium'); ?></div>
-                <div>
+                <div class="w-100">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h4 class="news-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+                        <a href="<?php the_permalink(); ?>" class="blog-arrow"><img src="/wp-content/themes/tns-child/assets/src/images/arrow-red.png"></a>
+                    </div>
                     <span class="news-date"><?php the_time('M d, Y'); ?></span>
-                    <h4 class="news-title"><?php the_title(); ?></h4>
                     <p class="news-desc"><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
                 </div>
             </div>
@@ -66,7 +70,8 @@ function ajax_load_news() {
 add_action('wp_ajax_load_blog', 'ajax_load_blog');
 add_action('wp_ajax_nopriv_load_blog', 'ajax_load_blog');
 
-function ajax_load_blog() {
+function ajax_load_blog()
+{
     $page = isset($_POST['page']) ? intval($_POST['page']) + 1 : 2;
 
     $query = new WP_Query([
@@ -75,15 +80,17 @@ function ajax_load_blog() {
         'paged' => $page
     ]);
 
-    if($query->have_posts()):
-        while($query->have_posts()): $query->the_post(); ?>
+    if ($query->have_posts()):
+        while ($query->have_posts()): $query->the_post(); ?>
             <div class="blog-card mb-4">
                 <img src="<?php the_post_thumbnail_url('large'); ?>" class="blog-img">
                 <div class="blog-content">
                     <span class="blog-date"><?php the_time('M d, Y'); ?></span>
                     <h4 class="blog-title"><?php the_title(); ?></h4>
                     <p class="blog-desc"><?php echo wp_trim_words(get_the_excerpt(), 25); ?></p>
-                    <a href="<?php the_permalink(); ?>" class="blog-arrow">↗</a>
+                    <div class="d-flex justify-content-end">
+                        <a href="<?php the_permalink(); ?>" class="blog-arrow"><img src="/wp-content/themes/tns-child/assets/src/images/arrow-yellow.png"></a>
+                    </div>
                 </div>
             </div>
         <?php endwhile;
@@ -93,8 +100,9 @@ function ajax_load_blog() {
 }
 
 
-add_action( 'phpmailer_init', 'smtp_gmail_wp' );
-function smtp_gmail_wp( $phpmailer ) {
+add_action('phpmailer_init', 'smtp_gmail_wp');
+function smtp_gmail_wp($phpmailer)
+{
     $phpmailer->isSMTP();
     $phpmailer->Host       = 'smtp.gmail.com';
     $phpmailer->SMTPAuth   = true;
@@ -108,7 +116,8 @@ function smtp_gmail_wp( $phpmailer ) {
 
 // Gửi mail từ form Contact
 add_action('init', 'handle_contact_form');
-function handle_contact_form() {
+function handle_contact_form()
+{
     if (!isset($_POST['submit_contact'])) return;
 
     $name    = sanitize_text_field($_POST['name']);
@@ -129,23 +138,85 @@ function handle_contact_form() {
         'Content-Type: text/html; charset=UTF-8'
     ]);
 
-    $redirect_url = esc_url_raw( add_query_arg( 'success', $sent ? 1 : 0, $_SERVER['REQUEST_URI'] ) );
+    $redirect_url = esc_url_raw(add_query_arg('success', $sent ? 1 : 0, $_SERVER['REQUEST_URI']));
 
     wp_redirect($redirect_url);
 }
-// Add menu khi sang màn mobile
-add_filter('wp_nav_menu', 'add_mobile_item_after_menu', 10, 2);
-function add_mobile_item_after_menu($nav_menu, $args) {
-    if ($args->theme_location !== 'header-menu') {
-        return $nav_menu;
-    }
+// LOAD AJAX SERVICE
+add_action("wp_ajax_load_service_top", "load_service_top");
+add_action("wp_ajax_nopriv_load_service_top", "load_service_top");
 
-    // Item bạn muốn thêm
-    $item = '<li class="menu-item mobile-extra"><a href="/lien-he">Liên hệ</a></li>';
-    // $item = '<li class="menu-item mobile-extra"><a href="/?page_id=165">Liên hệ</a></li>';
+function load_service_top()
+{
+    $page = intval($_POST["page"]) + 1;
 
-    // Chèn trước thẻ </ul>
-    $nav_menu = str_replace('</ul>', $item . '</ul>', $nav_menu);
+    $query = new WP_Query([
+        'post_type' => 'services',
+        'posts_per_page' => 4,
+        'paged' => $page,
+        'category_name' => 'animation-service'
+    ]);
 
-    return $nav_menu;
+    if ($query->have_posts()):
+        while ($query->have_posts()): $query->the_post();
+            $description = get_field('short_description'); ?>
+
+            <div class="blog-card mb-4">
+                <img src="<?php the_post_thumbnail_url('large'); ?>" class="blog-img">
+                <div class="blog-content">
+                    <h4 class="blog-title"><?php the_title(); ?></h4>
+                    <p class="blog-desc"><?php echo wp_trim_words($description, 25); ?></p>
+                    <div class="icon-bottom">
+                        <a href="<?php the_permalink(); ?>" class="blog-arrow"><img src="/wp-content/themes/tns-child/assets/src/images/plus.png"></a>
+                    </div>
+                </div>
+            </div>
+
+        <?php endwhile;
+    endif;
+
+    wp_die();
 }
+
+
+add_action("wp_ajax_load_service_bottom", "load_service_bottom");
+add_action("wp_ajax_nopriv_load_service_bottom", "load_service_bottom");
+
+function load_service_bottom()
+{
+    $page = intval($_POST["page"]) + 1;
+
+    $query = new WP_Query([
+        'post_type' => 'services',
+        'posts_per_page' => 4,
+        'paged' => $page,
+        'category_name' => 'production-service'
+    ]);
+
+    if ($query->have_posts()):
+        while ($query->have_posts()): $query->the_post();
+            $description = get_field('short_description'); ?>
+
+            <div class="blog-card mb-4">
+                <img src="<?php the_post_thumbnail_url('large'); ?>" class="blog-img">
+                <div class="blog-content">
+                    <h4 class="blog-title"><?php the_title(); ?></h4>
+                    <p class="blog-desc"><?php echo wp_trim_words($description, 25); ?></p>
+                    <div class="icon-bottom">
+                        <a href="<?php the_permalink(); ?>" class="blog-arrow"><img src="/wp-content/themes/tns-child/assets/src/images/plus.png"></a>
+                    </div>
+                </div>
+            </div>
+
+<?php endwhile;
+    endif;
+
+    wp_die();
+}
+
+// Disable all iframe lazyload from plugins
+// add_filter('the_content', function ($content) {
+//     // Tự chuyển data-src về src
+//     $content = str_replace('data-src=', 'src=', $content);
+//     return $content;
+// }, 999);
